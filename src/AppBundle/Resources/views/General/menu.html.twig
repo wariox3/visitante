@@ -1,0 +1,45 @@
+
+
+<nav class="navbar navbar-default navbar-static-top navbar-inverse">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="{{ path('inicio') }}">Soga E</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">                
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Utilidades <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{{ path('utilidad_registro_visitante') }}">Registro visitantes</a></li>
+                    </ul>
+                </li>
+                {% if is_granted('ROLE_ADMIN') %}
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Administracion <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{{ path('inicio') }}">Usuarios</a></li>
+                    </ul>
+                </li>
+                {% endif %}
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Opciones <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{{ path('inicio') }}">Cambiar clave</a></li>
+                    </ul>
+                </li>                
+                <!--<li><a href="{{ path('inicio') }}">Procesos</a></li>
+                <li><a href="{{ path('inicio') }}">Contactenos</a></li> -->               
+            </ul>                
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="{{ path('inicio') }}">{{ Usuario }}</a></li>
+                <li><a href="{{ path('logout') }}">Salir</a></li>                
+            </ul>
+        </div><!--/.nav-collapse -->
+    </div>
+</nav>
