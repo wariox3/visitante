@@ -1,2 +1,0 @@
-# visitante
-Registro de visitantes
