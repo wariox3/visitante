@@ -26,7 +26,23 @@ class Visitante
      * @ORM\Column(name="nombre", type="string", length=120, nullable=true)
      */    
     private $nombre;          
-       
+
+    /**
+     * @ORM\Column(name="codigo_grupo_fk", type="integer")
+     */    
+    private $codigoGrupoFk;    
+    
+    /**
+     * @ORM\Column(name="fecha_arl", type="datetime", nullable=true)
+     */    
+    private $fechaArl;    
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="Grupo", inversedBy="visitantesGrupoRel")
+     * @ORM\JoinColumn(name="codigo_grupo_fk", referencedColumnName="codigo_grupo_pk")
+     */
+    protected $grupoRel;    
+    
     /**
      * @ORM\OneToMany(targetEntity="Registro", mappedBy="visitanteRel")
      */
@@ -130,5 +146,77 @@ class Visitante
     public function getRegistrosVisitanteRel()
     {
         return $this->registrosVisitanteRel;
+    }
+
+    /**
+     * Set fechaArl
+     *
+     * @param \DateTime $fechaArl
+     *
+     * @return Visitante
+     */
+    public function setFechaArl($fechaArl)
+    {
+        $this->fechaArl = $fechaArl;
+
+        return $this;
+    }
+
+    /**
+     * Get fechaArl
+     *
+     * @return \DateTime
+     */
+    public function getFechaArl()
+    {
+        return $this->fechaArl;
+    }
+
+    /**
+     * Set codigoGrupoFk
+     *
+     * @param integer $codigoGrupoFk
+     *
+     * @return Visitante
+     */
+    public function setCodigoGrupoFk($codigoGrupoFk)
+    {
+        $this->codigoGrupoFk = $codigoGrupoFk;
+
+        return $this;
+    }
+
+    /**
+     * Get codigoGrupoFk
+     *
+     * @return integer
+     */
+    public function getCodigoGrupoFk()
+    {
+        return $this->codigoGrupoFk;
+    }
+
+    /**
+     * Set grupoRel
+     *
+     * @param \AppBundle\Entity\Grupo $grupoRel
+     *
+     * @return Visitante
+     */
+    public function setGrupoRel(\AppBundle\Entity\Grupo $grupoRel = null)
+    {
+        $this->grupoRel = $grupoRel;
+
+        return $this;
+    }
+
+    /**
+     * Get grupoRel
+     *
+     * @return \AppBundle\Entity\Grupo
+     */
+    public function getGrupoRel()
+    {
+        return $this->grupoRel;
     }
 }

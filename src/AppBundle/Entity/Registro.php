@@ -28,6 +28,11 @@ class Registro
     private $codigoVisitanteFk;    
     
     /**
+     * @ORM\Column(name="codigo_grupo_fk", type="integer")
+     */    
+    private $codigoGrupoFk;
+    
+    /**
      * @ORM\Column(name="fecha_entrada", type="datetime", nullable=true)
      */    
     private $fechaEntrada;
@@ -48,6 +53,11 @@ class Registro
     private $estadoSalida = FALSE;    
 
     /**
+     * @ORM\Column(name="fecha_arl", type="datetime", nullable=true)
+     */    
+    private $fechaArl;    
+    
+    /**
      * @ORM\ManyToOne(targetEntity="Cliente", inversedBy="registrosClienteRel")
      * @ORM\JoinColumn(name="codigo_cliente_fk", referencedColumnName="codigo_cliente_pk")
      */
@@ -59,6 +69,11 @@ class Registro
      */
     protected $visitanteRel;    
     
+    /**
+     * @ORM\ManyToOne(targetEntity="Grupo", inversedBy="registrosGrupoRel")
+     * @ORM\JoinColumn(name="codigo_grupo_fk", referencedColumnName="codigo_grupo_pk")
+     */
+    protected $grupoRel;    
 
     /**
      * Get codigoRegistroPk
@@ -260,5 +275,77 @@ class Registro
     public function getVisitanteRel()
     {
         return $this->visitanteRel;
+    }
+
+    /**
+     * Set codigoGrupoFk
+     *
+     * @param integer $codigoGrupoFk
+     *
+     * @return Registro
+     */
+    public function setCodigoGrupoFk($codigoGrupoFk)
+    {
+        $this->codigoGrupoFk = $codigoGrupoFk;
+
+        return $this;
+    }
+
+    /**
+     * Get codigoGrupoFk
+     *
+     * @return integer
+     */
+    public function getCodigoGrupoFk()
+    {
+        return $this->codigoGrupoFk;
+    }
+
+    /**
+     * Set grupoRel
+     *
+     * @param \AppBundle\Entity\Grupo $grupoRel
+     *
+     * @return Registro
+     */
+    public function setGrupoRel(\AppBundle\Entity\Grupo $grupoRel = null)
+    {
+        $this->grupoRel = $grupoRel;
+
+        return $this;
+    }
+
+    /**
+     * Get grupoRel
+     *
+     * @return \AppBundle\Entity\Grupo
+     */
+    public function getGrupoRel()
+    {
+        return $this->grupoRel;
+    }
+
+    /**
+     * Set fechaArl
+     *
+     * @param \DateTime $fechaArl
+     *
+     * @return Registro
+     */
+    public function setFechaArl($fechaArl)
+    {
+        $this->fechaArl = $fechaArl;
+
+        return $this;
+    }
+
+    /**
+     * Get fechaArl
+     *
+     * @return \DateTime
+     */
+    public function getFechaArl()
+    {
+        return $this->fechaArl;
     }
 }

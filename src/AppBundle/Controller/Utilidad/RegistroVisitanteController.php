@@ -27,20 +27,25 @@ class RegistroVisitanteController extends Controller
                 $arVisitante = $em->getRepository('AppBundle:Visitante')->findOneBy(array('numeroIdentificacion' => $identificacion));
                 if($arVisitante) {
                     $arUsuario = $this->getUser();
-                    $arCliente = $em->getRepository();
-                    $arRegistro = $em->getRepository('AppBundle:Registro')->findOneBy(array('codigoVisitanteFk' => $arVisitante->getCodigoVisitantePk(), 'estadoSalida' => 0));
-                    if($arRegistro) {
-                        $arRegistroAct = $em->getRepository('AppBundle:Registro')->find($arRegistro->getCodigoRegistroPk());
-                        $arRegistroAct->setFechaSalida(new \DateTime('now'));
-                        $arRegistroAct->setEstadoSalida(1);
-                    } else {
-                        $arRegistroAct = new \AppBundle\Entity\Registro();
-                        $arRegistroAct->setVisitanteRel($arVisitante);
-                        $arRegistroAct->setEstadoEntrada(1);
-                        $arRegistroAct->setFechaEntrada(new \DateTime('now'));
+                    if($arUsuario->getCodigoClienteFk()) {
+                        $arCliente = $em->getRepository('AppBundle:Cliente')->find($arUsuario->getCodigoClienteFk());
+                        $arRegistro = $em->getRepository('AppBundle:Registro')->findOneBy(array('codigoVisitanteFk' => $arVisitante->getCodigoVisitantePk(), 'estadoSalida' => 0));
+                        if($arRegistro) {
+                            $arRegistroAct = $em->getRepository('AppBundle:Registro')->find($arRegistro->getCodigoRegistroPk());
+                            $arRegistroAct->setFechaSalida(new \DateTime('now'));
+                            $arRegistroAct->setEstadoSalida(1);
+                        } else {
+                            $arRegistroAct = new \AppBundle\Entity\Registro();
+                            $arRegistroAct->setClienteRel($arCliente);
+                            $arRegistroAct->setGrupoRel($arVisitante->getGrupoRel());
+                            $arRegistroAct->setVisitanteRel($arVisitante);
+                            $arRegistroAct->setFechaArl($arVisitante->getFechaArl());
+                            $arRegistroAct->setEstadoEntrada(1);
+                            $arRegistroAct->setFechaEntrada(new \DateTime('now'));
+                        }
+                        $em->persist($arRegistroAct);
+                        $em->flush();                        
                     }
-                    $em->persist($arRegistroAct);
-                    $em->flush();
                 }
             }
         }        

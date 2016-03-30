@@ -11,7 +11,7 @@ use Doctrine\ORM\EntityRepository;
  */
 class RegistroRepository extends EntityRepository {
     
-    public function ListaDql($boolEstadoEntrada = "", $boolEstadoSalida = "") {        
+    public function ListaDql($boolEstadoEntrada = "", $boolEstadoSalida = "", $codigoGrupo = "") {        
         $dql  = "SELECT r FROM AppBundle:Registro r WHERE r.codigoRegistroPk <> 0 ";
         if($boolEstadoEntrada == 1 ) {
             $dql .= " AND r.estadoEntrada = 1";

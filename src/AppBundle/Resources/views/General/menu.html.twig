@@ -14,19 +14,23 @@
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">                
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Utilidades <span class="caret"></span></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Administracion <span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a href="{{ path('utilidad_registro_visitante') }}">Registro visitantes</a></li>
                     </ul>
                 </li>
-                {% if is_granted('ROLE_ADMIN') %}
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Administracion <span class="caret"></span></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Consultas <span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="{{ path('inicio') }}">Usuarios</a></li>
+                        <li><a href="{{ path('consulta_registro_visitante') }}">Registro visitantes</a></li>
                     </ul>
-                </li>
-                {% endif %}
+                </li>                
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Utilidades <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{{ path('utilidad_registro_visitante') }}">Registro visitantes</a></li>
+                    </ul>
+                </li>                
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Opciones <span class="caret"></span></a>
                     <ul class="dropdown-menu">

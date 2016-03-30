@@ -2,12 +2,12 @@
 {% block content %}
 <div class="container">
     <div class="page-header">
-        <h3>Utilidad registro visitantes</h3>
+        <h3>Consulta registro visitantes</h3>
     </div>
     {{ form_start(form, { 'attr': {'class': 'form-horizontal', 'novalidate': 'novalidate'} }) }}
             {{ form_errors(form) }}
         <div class="panel panel-default">
-            <div class="panel-heading">Nuevo registro</div>
+            <div class="panel-heading">Filtro de busqueda</div>
             <div class="panel-body">          
                 <div class="form-group form-group-sm">  
                     <label for="form_TxtIdentificacion" class="col-sm-2 control-label">Identificacion:</label>
@@ -53,7 +53,11 @@
                 <div class="btn btn-default btn-sm">Registros <span class="badge">{{ arRegistros.getTotalItemCount }}</span></div>        
             </div>
         </div>                
-        
+        <div class="btn-toolbar" style="float: right">                 
+            <div class="btn-group">                
+                {{ form_widget(form.BtnExcel, { 'attr': {'class': 'btn btn-default btn-sm'} }) }}                
+            </div>
+        </div>        
         {{ form_rest(form) }}
     {{ form_end(form) }}
 
