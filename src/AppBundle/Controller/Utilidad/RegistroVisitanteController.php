@@ -20,10 +20,19 @@ class RegistroVisitanteController extends Controller
         $paginator  = $this->get('knp_paginator');        
         $form = $this->formularioLista();
         $form->handleRequest($request);        
-        $this->listar($form);         
+        $this->listar();         
         if($form->isValid()) {
-            $identificacion = $form->get('TxtIdentificacion')->getData();
-            if($identificacion) {
+            if($request->request->get('OpSalida')) {
+                $codigoRegistro = $request->request->get('OpSalida');
+                $arRegistro = $em->getRepository('AppBundle:Registro')->find($codigoRegistro);
+                $arRegistro->setFechaSalida(new \DateTime('now'));
+                $arRegistro->setEstadoSalida(1);
+                $em->persist($arRegistro);
+                $em->flush();
+            }
+            if($form->get('BtnGuardar')->isClicked()) {
+                $identificacion = $form->get('TxtNumeroIdentificacion')->getData();
+                if($identificacion) {
                 $arVisitante = $em->getRepository('AppBundle:Visitante')->findOneBy(array('numeroIdentificacion' => $identificacion));
                 if($arVisitante) {
                     $arUsuario = $this->getUser();
@@ -35,19 +44,28 @@ class RegistroVisitanteController extends Controller
                             $arRegistroAct->setFechaSalida(new \DateTime('now'));
                             $arRegistroAct->setEstadoSalida(1);
                         } else {
+                            $fecha = new \DateTime('now');
                             $arRegistroAct = new \AppBundle\Entity\Registro();
                             $arRegistroAct->setClienteRel($arCliente);
                             $arRegistroAct->setGrupoRel($arVisitante->getGrupoRel());
                             $arRegistroAct->setVisitanteRel($arVisitante);
-                            $arRegistroAct->setFechaArl($arVisitante->getFechaArl());
+                            $arRegistroAct->setFechaArl($arVisitante->getFechaArl());                            
                             $arRegistroAct->setEstadoEntrada(1);
-                            $arRegistroAct->setFechaEntrada(new \DateTime('now'));
+                            $arRegistroAct->setFechaEntrada($fecha);
+                            if($fecha > $arVisitante->getFechaArl()) {
+                                $arRegistroAct->setArlVencida(1);
+                            }
                         }
                         $em->persist($arRegistroAct);
-                        $em->flush();                        
+                        $em->flush();    
+                        $session = $request->getSession();
+                        $session->set('filtroIdentificacion', null);
+                        
                     }
                 }
+            }                
             }
+            return $this->redirect($this->generateUrl('utilidad_registro_visitante'));
         }        
         $arRegistros = $paginator->paginate($em->createQuery($this->strDqlLista), $request->query->getInt('page', 1), 50);        
         return $this->render('AppBundle:Utilidad/RegistroVisitante:lista.html.twig', array(
@@ -56,15 +74,16 @@ class RegistroVisitanteController extends Controller
             ));
     }   
     
-    private function listar($form) {
+    private function listar() {
         $em = $this->getDoctrine()->getManager();         
         $this->strDqlLista = $em->getRepository('AppBundle:Registro')->listaDql(1,0);  
     }
     
-    private function formularioLista() {        
+    private function formularioLista() {         
         $form = $this->createFormBuilder()              
-            ->add('TxtIdentificacion', TextType::class, array('label'  => 'Numero','data' => ""))                                                               
-            ->add('BtnFiltrar',  SubmitType::class, array('label'  => 'Guardar'))                                            
+            ->add('TxtNumeroIdentificacion', TextType::class, array('label'  => 'NumeroIdentificacion','data' => ''))            
+            ->add('TxtNombreVisitante', TextType::class, array('label'  => 'NombreVisitante','data' => ''))                                               
+            ->add('BtnGuardar',  SubmitType::class, array('label'  => 'Guardar'))                                            
             ->getForm();        
         return $form;
     }

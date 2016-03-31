@@ -56,6 +56,11 @@ class Registro
      * @ORM\Column(name="fecha_arl", type="datetime", nullable=true)
      */    
     private $fechaArl;    
+
+    /**     
+     * @ORM\Column(name="arl_vencida", type="boolean")
+     */    
+    private $arlVencida = FALSE;
     
     /**
      * @ORM\ManyToOne(targetEntity="Cliente", inversedBy="registrosClienteRel")
@@ -74,6 +79,8 @@ class Registro
      * @ORM\JoinColumn(name="codigo_grupo_fk", referencedColumnName="codigo_grupo_pk")
      */
     protected $grupoRel;    
+
+
 
     /**
      * Get codigoRegistroPk
@@ -131,6 +138,30 @@ class Registro
     public function getCodigoVisitanteFk()
     {
         return $this->codigoVisitanteFk;
+    }
+
+    /**
+     * Set codigoGrupoFk
+     *
+     * @param integer $codigoGrupoFk
+     *
+     * @return Registro
+     */
+    public function setCodigoGrupoFk($codigoGrupoFk)
+    {
+        $this->codigoGrupoFk = $codigoGrupoFk;
+
+        return $this;
+    }
+
+    /**
+     * Get codigoGrupoFk
+     *
+     * @return integer
+     */
+    public function getCodigoGrupoFk()
+    {
+        return $this->codigoGrupoFk;
     }
 
     /**
@@ -230,6 +261,54 @@ class Registro
     }
 
     /**
+     * Set fechaArl
+     *
+     * @param \DateTime $fechaArl
+     *
+     * @return Registro
+     */
+    public function setFechaArl($fechaArl)
+    {
+        $this->fechaArl = $fechaArl;
+
+        return $this;
+    }
+
+    /**
+     * Get fechaArl
+     *
+     * @return \DateTime
+     */
+    public function getFechaArl()
+    {
+        return $this->fechaArl;
+    }
+
+    /**
+     * Set arlVencida
+     *
+     * @param boolean $arlVencida
+     *
+     * @return Registro
+     */
+    public function setArlVencida($arlVencida)
+    {
+        $this->arlVencida = $arlVencida;
+
+        return $this;
+    }
+
+    /**
+     * Get arlVencida
+     *
+     * @return boolean
+     */
+    public function getArlVencida()
+    {
+        return $this->arlVencida;
+    }
+
+    /**
      * Set clienteRel
      *
      * @param \AppBundle\Entity\Cliente $clienteRel
@@ -278,30 +357,6 @@ class Registro
     }
 
     /**
-     * Set codigoGrupoFk
-     *
-     * @param integer $codigoGrupoFk
-     *
-     * @return Registro
-     */
-    public function setCodigoGrupoFk($codigoGrupoFk)
-    {
-        $this->codigoGrupoFk = $codigoGrupoFk;
-
-        return $this;
-    }
-
-    /**
-     * Get codigoGrupoFk
-     *
-     * @return integer
-     */
-    public function getCodigoGrupoFk()
-    {
-        return $this->codigoGrupoFk;
-    }
-
-    /**
      * Set grupoRel
      *
      * @param \AppBundle\Entity\Grupo $grupoRel
@@ -323,29 +378,5 @@ class Registro
     public function getGrupoRel()
     {
         return $this->grupoRel;
-    }
-
-    /**
-     * Set fechaArl
-     *
-     * @param \DateTime $fechaArl
-     *
-     * @return Registro
-     */
-    public function setFechaArl($fechaArl)
-    {
-        $this->fechaArl = $fechaArl;
-
-        return $this;
-    }
-
-    /**
-     * Get fechaArl
-     *
-     * @return \DateTime
-     */
-    public function getFechaArl()
-    {
-        return $this->fechaArl;
     }
 }

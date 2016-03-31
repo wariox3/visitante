@@ -35,10 +35,11 @@ class User implements UserInterface
      * @ORM\Column(type="string")
      */
     private $password;
+
     /**
-     * @ORM\Column(type="json_array")
-     */
-    private $roles = array();
+     * @ORM\Column(name="roles", type="string", length=250, nullable=true)
+     */    
+    private $roles;
     
     /**
      * @ORM\Column(name="codigo_cliente_fk", type="integer", nullable=true)
@@ -89,15 +90,18 @@ class User implements UserInterface
      * Returns the roles or permissions granted to the user for security.
      */
     public function getRoles()
-    {
-        $roles = $this->roles;
+    {        
+        /*$roles = $this->roles;
         // guarantees that a user always has at least one role for security
         if (empty($roles)) {
             $roles[] = 'ROLE_USER';
         }
         return array_unique($roles);
+         * 
+         */
+        return array($this->roles);
     }
-    public function setRoles(array $roles)
+    public function setRoles($roles)
     {
         $this->roles = $roles;
     }

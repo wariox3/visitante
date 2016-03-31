@@ -20,16 +20,19 @@ class RegistroVisitanteController extends Controller
     {        
         $em = $this->getDoctrine()->getManager();
         $paginator  = $this->get('knp_paginator');        
-        $form = $this->formularioLista();
+        $form = $this->formularioLista($request->getSession());
         $form->handleRequest($request);        
-        $this->listar($form);         
+        $this->listar($request->getSession());         
         if($form->isValid()) {
             if($form->get('BtnExcel')->isClicked()) {
-                $this->listar($form);
+                $this->filtrar($form, $request->getSession());
+                $form = $this->formularioLista($request->getSession());                
                 $this->generarExcel();                
             }
             if($form->get('BtnFiltrar')->isClicked()) {
-                
+                $this->filtrar($form, $request->getSession());   
+                $form = $this->formularioLista($request->getSession());
+                $this->listar($request->getSession());
             }
         }        
         $arRegistros = $paginator->paginate($em->createQuery($this->strDqlLista), $request->query->getInt('page', 1), 50);        
@@ -39,17 +42,41 @@ class RegistroVisitanteController extends Controller
             ));
     }   
     
-    private function listar($form) {
-        $em = $this->getDoctrine()->getManager();  
-        $arGrupo = $form->get('grupoRel')->getData();
-        $codigoGrupo = "";
-        if($arGrupo) {
-           $codigoGrupo =  $arGrupo->getCodigoGrupoPk();
+    private function listar($session) {
+        $em = $this->getDoctrine()->getManager();         
+        $this->strDqlLista = $em->getRepository('AppBundle:Registro')->listaDql(
+                "", "",
+                $session->get('filtroCodigoGrupo'),
+                $session->get('filtroCodigoVisitante'));  
+    }
+
+    private function filtrar ($form, $session) {
+        $session->set('filtroIdentificacion', $form->get('TxtNumeroIdentificacion')->getData());
+        if($form->get('TxtNumeroIdentificacion')->getData() == "") {
+            $session->set('filtroCodigoVisitante', "");
         }
-        $this->strDqlLista = $em->getRepository('AppBundle:Registro')->listaDql();  
+        $arGrupo = $form->get('grupoRel')->getData();
+        if($arGrupo) {
+            $session->set('filtroCodigoGrupo', $arGrupo->getCodigoGrupoPk());
+        } else {
+            $session->set('filtroCodigoGrupo', '');
+        }        
     }
     
-    private function formularioLista() {    
+    private function formularioLista($session) {
+        $em = $this->getDoctrine()->getManager();
+        $strNombreVisitante = "";
+        if($session->get('filtroIdentificacion')) {
+            $arVisitante = $em->getRepository('AppBundle:Visitante')->findOneBy(array('numeroIdentificacion' => $session->get('filtroIdentificacion')));
+            if($arVisitante) {                
+                $session->set('filtroCodigoVisitante', $arVisitante->getCodigoVisitantePk());
+                $strNombreVisitante = $arVisitante->getNombre();
+            }  else {
+                $session->set('filtroCodigoVisitante', null);
+                $session->set('filtroIdentificacion', null);
+            }          
+        }        
+        
         $arrayPropiedadesGrupo = array(
                 'class' => 'AppBundle:Grupo',
                 'query_builder' => function (EntityRepository $er) {
@@ -58,12 +85,13 @@ class RegistroVisitanteController extends Controller
                 'choice_label' => 'nombre',
                 'required' => false,
             );
-        /*if($session->get('filtroCodigoCentroCostoRecurso')) {
-            $arrayPropiedadesCentroCosto['data'] = $em->getReference("BrasaTurnoBundle:TurCentroCosto", $session->get('filtroCodigoCentroCostoRecurso'));
-        }*/        
+        if($session->get('filtroCodigoGrupo')) {
+            $arrayPropiedadesGrupo['data'] = $em->getReference("AppBundle:Grupo", $session->get('filtroCodigoGrupo'));
+        }       
         $form = $this->createFormBuilder() 
             ->add('grupoRel', EntityType::class, $arrayPropiedadesGrupo)
-            ->add('TxtIdentificacion', TextType::class, array('label'  => 'Numero','data' => ""))                                                               
+            ->add('TxtNumeroIdentificacion', TextType::class, array('label'  => 'NumeroIdentificacion','data' => $session->get('filtroIdentificacion')))            
+            ->add('TxtNombreVisitante', TextType::class, array('label'  => 'NombreVisitante','data' => $strNombreVisitante))                                                
             ->add('BtnFiltrar',  SubmitType::class, array('label'  => 'Filtrar'))                                            
             ->add('BtnExcel', SubmitType::class, array('label'  => 'Excel'))                                            
             ->getForm();        
@@ -72,7 +100,7 @@ class RegistroVisitanteController extends Controller
     
     private function generarExcel() {
         $em = $this->getDoctrine()->getManager();        
-        $objPHPExcel = new \PHPExcel();
+        $objPHPExcel = new \PHPExcel();        
         // Set document properties
         $objPHPExcel->getProperties()->setCreator("EMPRESA")
             ->setLastModifiedBy("EMPRESA")

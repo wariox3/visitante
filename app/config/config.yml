@@ -66,3 +66,7 @@ swiftmailer:
     username:  "%mailer_user%"
     password:  "%mailer_password%"
     spool:     { type: memory }
+
+services:
+    mensajes_brasa:
+        class:        AppBundle\Resource\MisClases\Mensajes

@@ -11,9 +11,12 @@ use Doctrine\ORM\EntityRepository;
  */
 class GrupoRepository extends EntityRepository {
     
-    public function ListaDql() {        
-        $dql  = "SELECT g FROM AppBundle:Visitante v WHERE v.codigoVisitantePk <> 0 ";
-        $dql .= "ORDER BY v.nombre";
+    public function ListaDql($nombre = "") {        
+        $dql  = "SELECT g FROM AppBundle:Grupo g WHERE g.codigoGrupoPk <> 0 ";
+        if($nombre != "" ) {
+            $dql .= " AND g.nombre LIKE '%" . $nombre . "%'";
+        }        
+        $dql .= " ORDER BY g.nombre";
         return $dql;
     }
 }

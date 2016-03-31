@@ -20,4 +20,8 @@ use Doctrine\ORM\EntityRepository;
  */
 class UserRepository extends EntityRepository
 {
+    public function listaDql() {        
+        $dql  = "SELECT u FROM AppBundle:User u WHERE u.id <> 0 ";
+        return $dql;
+    }
 }
