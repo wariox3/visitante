@@ -60,7 +60,11 @@
                 <td>{{ arRegistros.visitanteRel.nombre  }}</td>
                 <td>{{ arRegistros.fechaArl |date("Y/m/d")  }}</td>
                 <td>{{ arRegistros.fechaEntrada |date("Y/m/d H:i")  }}</td>
-                <td>{{ arRegistros.fechaSalida |date("Y/m/d H:i")  }}</td>
+                {% if arRegistros.estadoSalida == 1 %}
+                    <td>{{ arRegistros.fechaSalida |date("Y/m/d H:i")  }}</td>
+                {% else %}                    
+                    <td>SIN SALIDA</td>
+                {% endif %}
                 <td><button class="btn btn-default btn-xs" type="submit" name="OpSalida" value="{{ arRegistros.codigoRegistroPk }}" onclick="javascript:if (!confirm('Esta seguro que desea dar salida al visitante?'))return false;">Salida</button> </td>
             </tr>
             {% endfor %}
