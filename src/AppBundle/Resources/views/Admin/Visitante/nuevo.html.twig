@@ -25,6 +25,12 @@
                 </div>                
             </div> 
             <div class="form-group form-group-sm">
+                <label for="form_codigo" class="col-sm-3 control-label">Codigo visitante:</label>
+                <div class="col-sm-9">
+                    {{ form_widget(form.codigo, { 'attr': {'class': 'form-control', 'style':'text-transform:uppercase;','onblur':'javascript:this.value=this.value.toUpperCase()'} }) }}                        
+                </div>                
+            </div>                 
+            <div class="form-group form-group-sm">
                 <label for="form_fechaArl" class="col-sm-3 control-label">Fecha arl:</label>
                 <div class="col-sm-9">
                     {{ form_widget(form.fechaArl, {'attr': {'maxlength' : 10} }) }} 

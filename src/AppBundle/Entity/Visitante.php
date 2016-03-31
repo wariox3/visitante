@@ -28,6 +28,11 @@ class Visitante
     private $nombre;          
 
     /**
+     * @ORM\Column(name="codigo", type="string", length=9, nullable=true)
+     */    
+    private $codigo;    
+    
+    /**
      * @ORM\Column(name="codigo_grupo_fk", type="integer")
      */    
     private $codigoGrupoFk;    
@@ -48,6 +53,13 @@ class Visitante
      */
     protected $registrosVisitanteRel;    
     
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->registrosVisitanteRel = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * Get codigoVisitantePk
@@ -106,12 +118,101 @@ class Visitante
     {
         return $this->nombre;
     }
+
     /**
-     * Constructor
+     * Set codigo
+     *
+     * @param string $codigo
+     *
+     * @return Visitante
      */
-    public function __construct()
+    public function setCodigo($codigo)
     {
-        $this->registrosVisitanteRel = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->codigo = $codigo;
+
+        return $this;
+    }
+
+    /**
+     * Get codigo
+     *
+     * @return string
+     */
+    public function getCodigo()
+    {
+        return $this->codigo;
+    }
+
+    /**
+     * Set codigoGrupoFk
+     *
+     * @param integer $codigoGrupoFk
+     *
+     * @return Visitante
+     */
+    public function setCodigoGrupoFk($codigoGrupoFk)
+    {
+        $this->codigoGrupoFk = $codigoGrupoFk;
+
+        return $this;
+    }
+
+    /**
+     * Get codigoGrupoFk
+     *
+     * @return integer
+     */
+    public function getCodigoGrupoFk()
+    {
+        return $this->codigoGrupoFk;
+    }
+
+    /**
+     * Set fechaArl
+     *
+     * @param \DateTime $fechaArl
+     *
+     * @return Visitante
+     */
+    public function setFechaArl($fechaArl)
+    {
+        $this->fechaArl = $fechaArl;
+
+        return $this;
+    }
+
+    /**
+     * Get fechaArl
+     *
+     * @return \DateTime
+     */
+    public function getFechaArl()
+    {
+        return $this->fechaArl;
+    }
+
+    /**
+     * Set grupoRel
+     *
+     * @param \AppBundle\Entity\Grupo $grupoRel
+     *
+     * @return Visitante
+     */
+    public function setGrupoRel(\AppBundle\Entity\Grupo $grupoRel = null)
+    {
+        $this->grupoRel = $grupoRel;
+
+        return $this;
+    }
+
+    /**
+     * Get grupoRel
+     *
+     * @return \AppBundle\Entity\Grupo
+     */
+    public function getGrupoRel()
+    {
+        return $this->grupoRel;
     }
 
     /**
@@ -146,77 +247,5 @@ class Visitante
     public function getRegistrosVisitanteRel()
     {
         return $this->registrosVisitanteRel;
-    }
-
-    /**
-     * Set fechaArl
-     *
-     * @param \DateTime $fechaArl
-     *
-     * @return Visitante
-     */
-    public function setFechaArl($fechaArl)
-    {
-        $this->fechaArl = $fechaArl;
-
-        return $this;
-    }
-
-    /**
-     * Get fechaArl
-     *
-     * @return \DateTime
-     */
-    public function getFechaArl()
-    {
-        return $this->fechaArl;
-    }
-
-    /**
-     * Set codigoGrupoFk
-     *
-     * @param integer $codigoGrupoFk
-     *
-     * @return Visitante
-     */
-    public function setCodigoGrupoFk($codigoGrupoFk)
-    {
-        $this->codigoGrupoFk = $codigoGrupoFk;
-
-        return $this;
-    }
-
-    /**
-     * Get codigoGrupoFk
-     *
-     * @return integer
-     */
-    public function getCodigoGrupoFk()
-    {
-        return $this->codigoGrupoFk;
-    }
-
-    /**
-     * Set grupoRel
-     *
-     * @param \AppBundle\Entity\Grupo $grupoRel
-     *
-     * @return Visitante
-     */
-    public function setGrupoRel(\AppBundle\Entity\Grupo $grupoRel = null)
-    {
-        $this->grupoRel = $grupoRel;
-
-        return $this;
-    }
-
-    /**
-     * Get grupoRel
-     *
-     * @return \AppBundle\Entity\Grupo
-     */
-    public function getGrupoRel()
-    {
-        return $this->grupoRel;
     }
 }

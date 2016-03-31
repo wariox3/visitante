@@ -46,6 +46,7 @@
                 <th>{{ knp_pagination_sortable(arVisitantes, 'CÓDIGO', 'v.codigoVisitantePk') }}</th>                
                 <th>IDENTIFICACION</th>
                 <th>NOMBRE</th>
+                <th>COD.VISITANTE</th>
                 <th>GRUPO</th>                
                 <th>ARL</th>
                 <th></th>
@@ -56,6 +57,7 @@
                 <td>{{ arVisitantes.codigoVisitantePk  }}</td>                                               
                 <td>{{ arVisitantes.numeroIdentificacion }}</td>                
                 <td>{{ arVisitantes.nombre }}</td>                                
+                <td>{{ arVisitantes.codigo }}</td>                                
                 <td>{{ arVisitantes.grupoRel.nombre | default('') }}</td>                                   
                 <td>{{ arVisitantes.fechaArl | date('Y/m/d') }}</td>                                   
                 <td style="text-align: center"><a href="{{ path('admin_visitante_nuevo', {'codigoVisitante': arVisitantes.codigoVisitantePk }) }}"><img src="{{ asset('imagenes/bootstrap/glyphicons_151_edit.png') }}" width=20 height=20 title="Editar el registro"></a></td>                                

@@ -20,8 +20,9 @@ class VisitanteType extends AbstractType
                     ->orderBy('g.codigoGrupoPk', 'ASC');},
                 'choice_label' => 'nombre',
                 'required' => true))                              
-            ->add('numeroIdentificacion', TextType::class, array('required' => true)) 
+            ->add('numeroIdentificacion', TextType::class, array('required' => true))             
             ->add('nombre', TextType::class, array('required' => true)) 
+            ->add('codigo', TextType::class, array('required' => true))                             
             ->add('fechaArl', DateType::class,array('widget' => 'single_text', 'format' => 'yyyy-MM-dd', 'attr' => array('class' => 'date',)))                            
             ->add('guardar', SubmitType::class)
             ->add('guardarnuevo', SubmitType::class, array('label'  => 'Guardar y Nuevo'));
