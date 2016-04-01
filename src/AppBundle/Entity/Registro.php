@@ -33,6 +33,11 @@ class Registro
     private $codigoGrupoFk;
     
     /**
+     * @ORM\Column(name="codigo_cargo_fk", type="integer", nullable=true)
+     */    
+    private $codigoCargoFk;     
+    
+    /**
      * @ORM\Column(name="fecha_entrada", type="datetime", nullable=true)
      */    
     private $fechaEntrada;
@@ -80,6 +85,11 @@ class Registro
      */
     protected $grupoRel;    
 
+    /**
+     * @ORM\ManyToOne(targetEntity="Cargo", inversedBy="resgistrosCargoRel")
+     * @ORM\JoinColumn(name="codigo_cargo_fk", referencedColumnName="codigo_cargo_pk")
+     */
+    protected $cargoRel;    
 
 
     /**
@@ -378,5 +388,53 @@ class Registro
     public function getGrupoRel()
     {
         return $this->grupoRel;
+    }
+
+    /**
+     * Set codigoCargoFk
+     *
+     * @param integer $codigoCargoFk
+     *
+     * @return Registro
+     */
+    public function setCodigoCargoFk($codigoCargoFk)
+    {
+        $this->codigoCargoFk = $codigoCargoFk;
+
+        return $this;
+    }
+
+    /**
+     * Get codigoCargoFk
+     *
+     * @return integer
+     */
+    public function getCodigoCargoFk()
+    {
+        return $this->codigoCargoFk;
+    }
+
+    /**
+     * Set cargoRel
+     *
+     * @param \AppBundle\Entity\Cargo $cargoRel
+     *
+     * @return Registro
+     */
+    public function setCargoRel(\AppBundle\Entity\Cargo $cargoRel = null)
+    {
+        $this->cargoRel = $cargoRel;
+
+        return $this;
+    }
+
+    /**
+     * Get cargoRel
+     *
+     * @return \AppBundle\Entity\Cargo
+     */
+    public function getCargoRel()
+    {
+        return $this->cargoRel;
     }
 }

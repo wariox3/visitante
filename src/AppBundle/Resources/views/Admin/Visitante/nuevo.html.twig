@@ -31,7 +31,7 @@
             <div class="form-group form-group-sm">
                 <label for="form_codigo" class="col-sm-3 control-label">Codigo visitante:</label>
                 <div class="col-sm-9">
-                    {{ form_widget(form.codigo, { 'attr': {'class': 'form-control', 'style':'text-transform:uppercase;','onblur':'javascript:this.value=this.value.toUpperCase()'} }) }}                        
+                    {{ form_widget(form.codigo, { 'attr': {'maxlength' : 10, 'class': 'form-control', 'style':'text-transform:uppercase;','onblur':'javascript:this.value=this.value.toUpperCase()'} }) }}                        
                 </div>                
             </div>                 
             <div class="form-group form-group-sm">
@@ -39,7 +39,13 @@
                 <div class="col-sm-9">
                     {{ form_widget(form.fechaArl, {'attr': {'maxlength' : 10} }) }} 
                 </div>                
-            </div>                                                                            
+            </div>
+            <div class="form-group form-group-sm">
+                <label for="form_cargoRel" class="col-sm-3 control-label">Cargo:</label>
+                <div class="col-sm-9">
+                    {{ form_widget(form.cargoRel, { 'attr': {'class': 'form-control'} }) }}                        
+                </div>                
+            </div>                
         </div>
     </div>                
     <div class="modal-footer">

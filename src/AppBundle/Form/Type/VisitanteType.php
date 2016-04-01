@@ -20,6 +20,13 @@ class VisitanteType extends AbstractType
                     ->orderBy('g.codigoGrupoPk', 'ASC');},
                 'choice_label' => 'nombre',
                 'required' => true))                              
+            ->add('cargoRel', EntityType::class, array(
+                'class' => 'AppBundle:Cargo',
+                'query_builder' => function (EntityRepository $er)  {
+                    return $er->createQueryBuilder('c')
+                    ->orderBy('c.codigoCargoPk', 'ASC');},
+                'choice_label' => 'nombre',
+                'required' => true))                            
             ->add('numeroIdentificacion', TextType::class, array('required' => true))             
             ->add('nombre', TextType::class, array('required' => true)) 
             ->add('codigo', TextType::class, array('required' => true))                             

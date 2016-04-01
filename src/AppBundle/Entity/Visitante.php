@@ -41,6 +41,11 @@ class Visitante
     private $codigoGrupoFk;    
     
     /**
+     * @ORM\Column(name="codigo_cargo_fk", type="integer", nullable=true)
+     */    
+    private $codigoCargoFk;    
+    
+    /**
      * @ORM\Column(name="fecha_arl", type="datetime", nullable=true)
      */    
     private $fechaArl;    
@@ -50,6 +55,12 @@ class Visitante
      * @ORM\JoinColumn(name="codigo_grupo_fk", referencedColumnName="codigo_grupo_pk")
      */
     protected $grupoRel;    
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Cargo", inversedBy="visitantesCargoRel")
+     * @ORM\JoinColumn(name="codigo_cargo_fk", referencedColumnName="codigo_cargo_pk")
+     */
+    protected $cargoRel;
     
     /**
      * @ORM\OneToMany(targetEntity="Registro", mappedBy="visitanteRel")
@@ -251,5 +262,53 @@ class Visitante
     public function getRegistrosVisitanteRel()
     {
         return $this->registrosVisitanteRel;
+    }
+
+    /**
+     * Set codigoCargoFk
+     *
+     * @param integer $codigoCargoFk
+     *
+     * @return Visitante
+     */
+    public function setCodigoCargoFk($codigoCargoFk)
+    {
+        $this->codigoCargoFk = $codigoCargoFk;
+
+        return $this;
+    }
+
+    /**
+     * Get codigoCargoFk
+     *
+     * @return integer
+     */
+    public function getCodigoCargoFk()
+    {
+        return $this->codigoCargoFk;
+    }
+
+    /**
+     * Set cargoRel
+     *
+     * @param \AppBundle\Entity\Cargo $cargoRel
+     *
+     * @return Visitante
+     */
+    public function setCargoRel(\AppBundle\Entity\Cargo $cargoRel = null)
+    {
+        $this->cargoRel = $cargoRel;
+
+        return $this;
+    }
+
+    /**
+     * Get cargoRel
+     *
+     * @return \AppBundle\Entity\Cargo
+     */
+    public function getCargoRel()
+    {
+        return $this->cargoRel;
     }
 }

@@ -48,6 +48,7 @@ class RegistroVisitanteController extends Controller
                             $arRegistroAct = new \AppBundle\Entity\Registro();
                             $arRegistroAct->setClienteRel($arCliente);
                             $arRegistroAct->setGrupoRel($arVisitante->getGrupoRel());
+                            $arRegistroAct->setCargoRel($arVisitante->getCargoRel());
                             $arRegistroAct->setVisitanteRel($arVisitante);
                             $arRegistroAct->setFechaArl($arVisitante->getFechaArl());                            
                             $arRegistroAct->setEstadoEntrada(1);
