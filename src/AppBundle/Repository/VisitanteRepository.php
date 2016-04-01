@@ -25,4 +25,15 @@ class VisitanteRepository extends EntityRepository {
         $dql .= " ORDER BY v.nombre";
         return $dql;
     }
+    
+    public function eliminar($arrSeleccionados) {
+        $em = $this->getEntityManager();
+        if(count($arrSeleccionados) > 0) {
+            foreach ($arrSeleccionados AS $codigo) {
+                $ar = $em->getRepository('AppBundle:Visitante')->find($codigo);
+                $em->remove($ar);
+            }
+            $em->flush();
+        }
+    }     
 }

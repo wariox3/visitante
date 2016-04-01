@@ -16,7 +16,11 @@
                 <label for="form_numeroIdentificacion" class="col-sm-3 control-label">Identificacion:</label>
                 <div class="col-sm-9">
                     {{ form_widget(form.numeroIdentificacion, { 'attr': {'class': 'form-control', 'style':'text-transform:uppercase;','onblur':'javascript:this.value=this.value.toUpperCase()'} }) }}                        
+                    {% if form_errors(form.numeroIdentificacion) %}
+                        <div class="alert alert-danger" role="alert">{{ form_errors(form.numeroIdentificacion)}}</div>                    
+                    {% endif %}                    
                 </div>                
+                
             </div>                
             <div class="form-group form-group-sm">
                 <label for="form_nombre" class="col-sm-3 control-label">Nombre:</label>
@@ -37,7 +41,7 @@
                 </div>                
             </div>                                                                            
         </div>
-    </div>                       
+    </div>                
     <div class="modal-footer">
         <a class="btn btn-default btn-sm" href="{{ path('admin_visitante') }}">Cancelar</a>                     
         {{ form_widget(form.guardar, { 'attr': {'class': 'btn btn-primary btn-sm'} }) }}

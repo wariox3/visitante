@@ -3,10 +3,13 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints as DoctrineAssert;
 
 /**
  * @ORM\Table(name="visitante")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\VisitanteRepository")
+ * @DoctrineAssert\UniqueEntity(fields={"numeroIdentificacion"},message="Ya existe este número de identificación")
  */
 class Visitante
 {
@@ -53,6 +56,7 @@ class Visitante
      */
     protected $registrosVisitanteRel;    
     
+
     /**
      * Constructor
      */

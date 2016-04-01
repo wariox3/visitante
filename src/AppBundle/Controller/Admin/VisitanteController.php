@@ -23,6 +23,12 @@ class VisitanteController extends Controller
         $form->handleRequest($request);
         $this->lista($request->getSession());
         if ($form->isValid()) {
+            $arrSeleccionados = $request->request->get('ChkSeleccionar');
+            if ($form->get('BtnEliminar')->isClicked()) {
+                $arrSeleccionados = $request->request->get('ChkSeleccionar');
+                $em->getRepository('AppBundle:Visitante')->eliminar($arrSeleccionados);
+                return $this->redirect($this->generateUrl('admin_visitante'));
+            }            
             if ($form->get('BtnFiltrar')->isClicked()) {
                 $this->filtrar($form, $request->getSession());
             }
@@ -105,6 +111,7 @@ class VisitanteController extends Controller
             ->add('TxtNumeroIdentificacion', TextType::class, array('label'  => 'NumeroIdentificacion','data' => $session->get('filtroIdentificacion')))
             ->add('BtnExcel', SubmitType::class, array('label'  => 'Excel',))
             ->add('BtnFiltrar', SubmitType::class, array('label'  => 'Filtrar'))
+            ->add('BtnEliminar', SubmitType::class, array('label'  => 'Eliminar',))                            
             ->getForm();
         return $form;
     }
