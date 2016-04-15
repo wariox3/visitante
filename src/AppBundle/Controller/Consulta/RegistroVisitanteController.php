@@ -7,6 +7,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Doctrine\ORM\EntityRepository;
 
@@ -43,11 +45,21 @@ class RegistroVisitanteController extends Controller
     }   
     
     private function listar($session) {
-        $em = $this->getDoctrine()->getManager();         
+        $em = $this->getDoctrine()->getManager();  
+        $strFechaDesde = "";
+        $strFechaHasta = "";        
+        $filtrarFecha = $session->get('filtroRegistroFiltrarFecha');
+        if($filtrarFecha) {
+            $strFechaDesde = $session->get('filtroRegistroFechaDesde');
+            $strFechaHasta = $session->get('filtroRegistroFechaHasta');                    
+        }        
         $this->strDqlLista = $em->getRepository('AppBundle:Registro')->listaDql(
                 "", "",
                 $session->get('filtroCodigoGrupo'),
-                $session->get('filtroCodigoVisitante'));  
+                $session->get('filtroCodigoVisitante'),
+                $strFechaDesde,
+                $strFechaHasta                
+                );  
     }
 
     private function filtrar ($form, $session) {
@@ -60,11 +72,28 @@ class RegistroVisitanteController extends Controller
             $session->set('filtroCodigoGrupo', $arGrupo->getCodigoGrupoPk());
         } else {
             $session->set('filtroCodigoGrupo', '');
-        }        
+        }  
+        $dateFechaDesde = $form->get('fechaDesde')->getData();
+        $dateFechaHasta = $form->get('fechaHasta')->getData();
+        $session->set('filtroRegistroFechaDesde', $dateFechaDesde->format('Y/m/d'));
+        $session->set('filtroRegistroFechaHasta', $dateFechaHasta->format('Y/m/d'));                 
+        $session->set('filtroRegistroFiltrarFecha', $form->get('filtrarFecha')->getData());        
     }
     
     private function formularioLista($session) {
         $em = $this->getDoctrine()->getManager();
+        $dateFecha = new \DateTime('now');
+        $strFechaDesde = $dateFecha->format('Y/m/')."01";
+        $intUltimoDia = $strUltimoDiaMes = date("d",(mktime(0,0,0,$dateFecha->format('m')+1,1,$dateFecha->format('Y'))-1));
+        $strFechaHasta = $dateFecha->format('Y/m/').$intUltimoDia;
+        if($session->get('filtroRegistroFechaDesde') != "") {
+            $strFechaDesde = $session->get('filtroRegistroFechaDesde');
+        }
+        if($session->get('filtroRegistroFechaHasta') != "") {
+            $strFechaHasta = $session->get('filtroRegistroFechaHasta');
+        }    
+        $dateFechaDesde = date_create($strFechaDesde);
+        $dateFechaHasta = date_create($strFechaHasta);        
         $strNombreVisitante = "";
         if($session->get('filtroIdentificacion')) {
             $arVisitante = $em->getRepository('AppBundle:Visitante')->findOneBy(array('numeroIdentificacion' => $session->get('filtroIdentificacion')));
@@ -89,9 +118,12 @@ class RegistroVisitanteController extends Controller
             $arrayPropiedadesGrupo['data'] = $em->getReference("AppBundle:Grupo", $session->get('filtroCodigoGrupo'));
         }       
         $form = $this->createFormBuilder() 
-            ->add('grupoRel', EntityType::class, $arrayPropiedadesGrupo)
+            ->add('grupoRel', EntityType::class, $arrayPropiedadesGrupo)                
             ->add('TxtNumeroIdentificacion', TextType::class, array('label'  => 'NumeroIdentificacion','data' => $session->get('filtroIdentificacion')))            
             ->add('TxtNombreVisitante', TextType::class, array('label'  => 'NombreVisitante','data' => $strNombreVisitante))                                                
+            ->add('fechaDesde', DateType::class, array('format' => 'yyyyMMdd', 'data' => $dateFechaDesde))                            
+            ->add('fechaHasta', DateType::class, array('format' => 'yyyyMMdd', 'data' => $dateFechaHasta))                                
+            ->add('filtrarFecha', CheckboxType::class, array('required'  => false, 'data' => $session->get('filtroRegistroFiltrarFecha')))                                             
             ->add('BtnFiltrar',  SubmitType::class, array('label'  => 'Filtrar'))                                            
             ->add('BtnExcel', SubmitType::class, array('label'  => 'Excel'))                                            
             ->getForm();        

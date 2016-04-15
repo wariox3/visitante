@@ -11,7 +11,7 @@ use Doctrine\ORM\EntityRepository;
  */
 class RegistroRepository extends EntityRepository {
     
-    public function ListaDql($boolEstadoEntrada = "", $boolEstadoSalida = "", $codigoGrupo = "", $codigoVisitante = "") {        
+    public function ListaDql($boolEstadoEntrada = "", $boolEstadoSalida = "", $codigoGrupo = "", $codigoVisitante = "", $fechaDesde = "", $fechaHasta = "") {        
         $dql  = "SELECT r FROM AppBundle:Registro r WHERE r.codigoRegistroPk <> 0 ";
         if($boolEstadoEntrada == 1 ) {
             $dql .= " AND r.estadoEntrada = 1";
@@ -31,6 +31,12 @@ class RegistroRepository extends EntityRepository {
         if($codigoVisitante != "" ) {
             $dql .= " AND r.codigoVisitanteFk = " . $codigoVisitante;
         }
+        if($fechaDesde != "" ) {
+            $dql .= " AND r.fechaEntrada >= '" . $fechaDesde . " 00:00:00'";
+        }        
+        if($fechaHasta != "" ) {
+            $dql .= " AND r.fechaEntrada <= '" . $fechaHasta . " 23:59:00'";
+        }        
         return $dql;
     }
 }
