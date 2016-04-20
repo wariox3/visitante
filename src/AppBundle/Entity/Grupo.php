@@ -16,12 +16,32 @@ class Grupo
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $codigoGrupoPk;   
+
+    /**
+     * @ORM\Column(name="nit", type="string", length=20, nullable=true)
+     */    
+    private $nit;
     
     /**
      * @ORM\Column(name="nombre", type="string", length=120, nullable=true)
      */    
     private $nombre;          
        
+    /**
+     * @ORM\Column(name="direccion", type="string", length=120, nullable=true)
+     */    
+    private $direccion;     
+
+    /**
+     * @ORM\Column(name="telefono", type="string", length=40, nullable=true)
+     */    
+    private $telefono;
+    
+    /**
+     * @ORM\Column(name="fecha_arl", type="datetime", nullable=true)
+     */    
+    private $fechaArl;    
+    
     /**
      * @ORM\OneToMany(targetEntity="Visitante", mappedBy="grupoRel")
      */
@@ -139,5 +159,101 @@ class Grupo
     public function getRegistrosGrupoRel()
     {
         return $this->registrosGrupoRel;
+    }
+
+    /**
+     * Set nit
+     *
+     * @param string $nit
+     *
+     * @return Grupo
+     */
+    public function setNit($nit)
+    {
+        $this->nit = $nit;
+
+        return $this;
+    }
+
+    /**
+     * Get nit
+     *
+     * @return string
+     */
+    public function getNit()
+    {
+        return $this->nit;
+    }
+
+    /**
+     * Set direccion
+     *
+     * @param string $direccion
+     *
+     * @return Grupo
+     */
+    public function setDireccion($direccion)
+    {
+        $this->direccion = $direccion;
+
+        return $this;
+    }
+
+    /**
+     * Get direccion
+     *
+     * @return string
+     */
+    public function getDireccion()
+    {
+        return $this->direccion;
+    }
+
+    /**
+     * Set fechaArl
+     *
+     * @param \DateTime $fechaArl
+     *
+     * @return Grupo
+     */
+    public function setFechaArl($fechaArl)
+    {
+        $this->fechaArl = $fechaArl;
+
+        return $this;
+    }
+
+    /**
+     * Get fechaArl
+     *
+     * @return \DateTime
+     */
+    public function getFechaArl()
+    {
+        return $this->fechaArl;
+    }
+
+    /**
+     * Set telefono
+     *
+     * @param string $telefono
+     *
+     * @return Grupo
+     */
+    public function setTelefono($telefono)
+    {
+        $this->telefono = $telefono;
+
+        return $this;
+    }
+
+    /**
+     * Get telefono
+     *
+     * @return string
+     */
+    public function getTelefono()
+    {
+        return $this->telefono;
     }
 }

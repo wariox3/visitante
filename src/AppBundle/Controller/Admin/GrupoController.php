@@ -23,6 +23,13 @@ class GrupoController extends Controller
         $form->handleRequest($request);
         $this->lista($request->getSession());
         if ($form->isValid()) {
+            if($request->request->get('OpActualizarArl')) {
+                $codigoGrupo = $request->request->get('OpActualizarArl');
+                $arGrupo = $em->getRepository('AppBundle:Grupo')->find($codigoGrupo);
+                $strSql = "UPDATE visitante SET fecha_arl = '" . $arGrupo->getFechaArl()->format('Y/m/d') . "' WHERE codigo_grupo_fk = " . $codigoGrupo;           
+                $em->getConnection()->executeQuery($strSql);                
+            }
+            
             if ($form->get('BtnFiltrar')->isClicked()) {
                 $this->filtrar($form, $request->getSession());
             }
@@ -46,6 +53,8 @@ class GrupoController extends Controller
         $arGrupo = new \AppBundle\Entity\Grupo();
         if($codigoGrupo != '' && $codigoGrupo != '0') {
             $arGrupo = $em->getRepository('AppBundle:Grupo')->find($codigoGrupo);
+        } else {            
+            $arGrupo->setFechaArl(new \DateTime('now'));
         }
         $form = $this->createForm(GrupoType::class, $arGrupo);
         $form->handleRequest($request);

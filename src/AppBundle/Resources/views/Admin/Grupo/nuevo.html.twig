@@ -7,15 +7,39 @@
         <div class="panel-heading">Informacion general</div>
         <div class="panel-body">                                                         
             <div class="form-group form-group-sm">
+                <label for="form_nit" class="col-sm-3 control-label">Nit:</label>
+                <div class="col-sm-9">
+                    {{ form_widget(form.nit, { 'attr': {'class': 'form-control', 'style':'text-transform:uppercase;','onblur':'javascript:this.value=this.value.toUpperCase()'} }) }}                        
+                </div>                
+            </div>
+            <div class="form-group form-group-sm">
                 <label for="form_nombre" class="col-sm-3 control-label">Nombre:</label>
                 <div class="col-sm-9">
                     {{ form_widget(form.nombre, { 'attr': {'class': 'form-control', 'style':'text-transform:uppercase;','onblur':'javascript:this.value=this.value.toUpperCase()'} }) }}                        
                 </div>                
-            </div>                                                                           
+            </div>
+            <div class="form-group form-group-sm">
+                <label for="form_direccion" class="col-sm-3 control-label">Direccion:</label>
+                <div class="col-sm-9">
+                    {{ form_widget(form.direccion, { 'attr': {'class': 'form-control', 'style':'text-transform:uppercase;','onblur':'javascript:this.value=this.value.toUpperCase()'} }) }}                        
+                </div>                
+            </div>
+            <div class="form-group form-group-sm">
+                <label for="form_telefono" class="col-sm-3 control-label">Telefono:</label>
+                <div class="col-sm-9">
+                    {{ form_widget(form.telefono, { 'attr': {'class': 'form-control', 'style':'text-transform:uppercase;','onblur':'javascript:this.value=this.value.toUpperCase()'} }) }}                        
+                </div>                
+            </div>                
+            <div class="form-group form-group-sm">
+                <label for="form_fechaArl" class="col-sm-3 control-label">Fecha arl:</label>
+                <div class="col-sm-9">
+                    {{ form_widget(form.fechaArl, {'attr': {'maxlength' : 10} }) }} 
+                </div>                
+            </div>                
         </div>
     </div>                       
     <div class="modal-footer">
-        <a class="btn btn-default btn-sm" href="{{ path('admin_visitante') }}">Cancelar</a>                     
+        <a class="btn btn-default btn-sm" href="{{ path('admin_grupo') }}">Cancelar</a>                     
         {{ form_widget(form.guardar, { 'attr': {'class': 'btn btn-primary btn-sm'} }) }}
         {{ form_widget(form.guardarnuevo, { 'attr': {'class': 'btn btn-primary btn-sm'} }) }}
     </div>
