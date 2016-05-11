@@ -31,7 +31,7 @@ class Visitante
     private $nombre;          
 
     /**
-     * @ORM\Column(name="codigo", type="string", length=9, nullable=true)
+     * @ORM\Column(name="codigo", type="string", length=9, nullable=true, unique=true)
      */    
     private $codigo;    
     
@@ -67,6 +67,7 @@ class Visitante
      */
     protected $registrosVisitanteRel;    
     
+
 
     /**
      * Constructor
@@ -183,6 +184,30 @@ class Visitante
     }
 
     /**
+     * Set codigoCargoFk
+     *
+     * @param integer $codigoCargoFk
+     *
+     * @return Visitante
+     */
+    public function setCodigoCargoFk($codigoCargoFk)
+    {
+        $this->codigoCargoFk = $codigoCargoFk;
+
+        return $this;
+    }
+
+    /**
+     * Get codigoCargoFk
+     *
+     * @return integer
+     */
+    public function getCodigoCargoFk()
+    {
+        return $this->codigoCargoFk;
+    }
+
+    /**
      * Set fechaArl
      *
      * @param \DateTime $fechaArl
@@ -231,6 +256,30 @@ class Visitante
     }
 
     /**
+     * Set cargoRel
+     *
+     * @param \AppBundle\Entity\Cargo $cargoRel
+     *
+     * @return Visitante
+     */
+    public function setCargoRel(\AppBundle\Entity\Cargo $cargoRel = null)
+    {
+        $this->cargoRel = $cargoRel;
+
+        return $this;
+    }
+
+    /**
+     * Get cargoRel
+     *
+     * @return \AppBundle\Entity\Cargo
+     */
+    public function getCargoRel()
+    {
+        return $this->cargoRel;
+    }
+
+    /**
      * Add registrosVisitanteRel
      *
      * @param \AppBundle\Entity\Registro $registrosVisitanteRel
@@ -262,53 +311,5 @@ class Visitante
     public function getRegistrosVisitanteRel()
     {
         return $this->registrosVisitanteRel;
-    }
-
-    /**
-     * Set codigoCargoFk
-     *
-     * @param integer $codigoCargoFk
-     *
-     * @return Visitante
-     */
-    public function setCodigoCargoFk($codigoCargoFk)
-    {
-        $this->codigoCargoFk = $codigoCargoFk;
-
-        return $this;
-    }
-
-    /**
-     * Get codigoCargoFk
-     *
-     * @return integer
-     */
-    public function getCodigoCargoFk()
-    {
-        return $this->codigoCargoFk;
-    }
-
-    /**
-     * Set cargoRel
-     *
-     * @param \AppBundle\Entity\Cargo $cargoRel
-     *
-     * @return Visitante
-     */
-    public function setCargoRel(\AppBundle\Entity\Cargo $cargoRel = null)
-    {
-        $this->cargoRel = $cargoRel;
-
-        return $this;
-    }
-
-    /**
-     * Get cargoRel
-     *
-     * @return \AppBundle\Entity\Cargo
-     */
-    public function getCargoRel()
-    {
-        return $this->cargoRel;
     }
 }
